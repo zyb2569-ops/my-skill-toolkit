@@ -52,11 +52,12 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 - 建 `.work/`、`.agents/specs/{frontend,backend,common}/index.md`（已有 index 不覆盖）
 - 把忽略规则并进 `.gitignore`
+- 把 Skill 路由块追加进根目录 `AGENTS.md`（已有内容保留；重复跑只更新 `<!-- AGENT-SKILLS:START -->` … `END` 这一段）
 - 建 `~/agent-archive/<业务仓目录名>/`（Windows 在 `%USERPROFILE%\agent-archive\`）
 - 给 Cursor / Claude Code 建 junction
 - 检查 CodeGraph：没有索引则看 `codegraph` 在不在 PATH；在就建索引；多个代码仓先给你方案；命令没有则问你装不装，不装就跳过
 
-3. 规范正文你自己往三层目录里加。index 必须有「何时读哪些规范」和「改完对照什么」。模板：`skills/init/templates/index.md`（装进业务仓后是 `.agents/skills/init/templates/index.md`）。
+3. 规范正文你自己往三层目录里加。index 必须有「何时读哪些规范」和「改完对照什么」。模板：`skills/init/templates/index.md`。`AGENTS.md` 路由块模板：`skills/init/templates/AGENTS.md`（装进业务仓后都在 `.agents/skills/init/templates/`）。
 
 手工 junction（`init` 没做成时）：
 
@@ -92,6 +93,7 @@ Codex / Pi 直接读 `.agents/skills/`。装完后新开会话。
   .work/                    # gitignore，进行中任务
   .codegraph/               # gitignore，CodeGraph 索引（init 按需建）
   .cursor/skills/           # junction → .agents/skills
+  AGENTS.md                 # 追加托管路由块，不覆盖原有段落
   .gitignore                # 含 .work/、.hits.json、.codegraph/
 ```
 
@@ -138,4 +140,4 @@ node --test skills/init/scripts/init.test.mjs
 
 ## 明确不做
 
-会话记忆、OpenSpec、Superpowers、Trellis 状态机、独立 CLI 平台、中央规范库、从 `.trellis` 自动迁移。
+会话记忆、OpenSpec、Superpowers、Trellis 状态机、独立 CLI 平台、中央规范库、从 `.trellis` 自动迁移、整份覆盖业务仓 `AGENTS.md`、第一期写 `CLAUDE.md`。

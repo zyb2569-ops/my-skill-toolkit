@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { Writable } from "node:stream";
 import test from "node:test";
 import assert from "node:assert/strict";
-import { findGitRepos, prepare, run } from "./init.mjs";
+import { AGENTS_START, findGitRepos, mergeAgentsMd, prepare, run } from "./init.mjs";
 
 function capture() {
   let text = "";
@@ -64,5 +64,58 @@ test("run prepare prints json", () => {
   assert.equal(code, 0);
   const json = JSON.parse(out.toString());
   assert.ok(json.root);
+  assert.equal(json.agentsMd, "created");
   assert.ok(json.codegraph.installHint.includes("codegraph"));
+});
+
+test("prepare creates AGENTS.md and does not duplicate on rerun", () => {
+  const root = tmp();
+  const first = prepare(root);
+  assert.equal(first.agentsMd, "created");
+  assert.ok(first.created.includes("AGENTS.md"));
+  const text = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.match(text, /AGENT-SKILLS:START/);
+  assert.match(text, /load-specs/);
+  const second = prepare(root);
+  assert.equal(second.agentsMd, "unchanged");
+  assert.ok(second.skipped.includes("AGENTS.md"));
+  const again = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.equal((again.match(/AGENT-SKILLS:START/g) || []).length, 1);
+});
+
+test("prepare appends routing block after existing AGENTS.md", () => {
+  const root = tmp();
+  writeFileSync(join(root, "AGENTS.md"), "<!-- TRELLIS:START -->\nold\n<!-- TRELLIS:END -->\n");
+  const report = prepare(root);
+  assert.equal(report.agentsMd, "appended");
+  const text = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.match(text, /TRELLIS:START/);
+  assert.match(text, /AGENT-SKILLS:START/);
+  assert.match(text, /grill-with-docs/);
+  assert.ok(text.indexOf("TRELLIS:START") < text.indexOf("AGENT-SKILLS:START"));
+});
+
+test("prepare refreshes stale managed block and keeps surrounding text", () => {
+  const root = tmp();
+  writeFileSync(
+    join(root, "AGENTS.md"),
+    "# keep-head\n\n<!-- AGENT-SKILLS:START -->\nSTALE_BLOCK_CONTENT\n<!-- AGENT-SKILLS:END -->\n\n# keep-tail\n",
+  );
+  const report = prepare(root);
+  assert.equal(report.agentsMd, "updated");
+  const text = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.match(text, /^# keep-head/m);
+  assert.match(text, /# keep-tail/);
+  assert.doesNotMatch(text, /STALE_BLOCK_CONTENT/);
+  assert.match(text, /archive-task/);
+  assert.equal((text.match(/AGENT-SKILLS:START/g) || []).length, 1);
+});
+
+test("mergeAgentsMd appends when markers are missing", () => {
+  const root = tmp();
+  writeFileSync(join(root, "AGENTS.md"), "# project notes\n");
+  assert.equal(mergeAgentsMd(root), "appended");
+  const text = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.match(text, /^# project notes/m);
+  assert.ok(text.includes(AGENTS_START));
 });

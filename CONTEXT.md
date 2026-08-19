@@ -57,8 +57,12 @@ _Avoid_: issue, ticket, comet change, implement.md
 _Avoid_: workspace journal, 业务仓同级目录, 业务仓内 archive/
 
 **工作路径**:
-业务仓里工具包依赖的目录：`.agents/specs/` 三层、`.work/`、归档区、以及可选的 `.codegraph/`。由 `init` 一次性建齐。
+业务仓里工具包依赖的目录：`.agents/specs/` 三层、`.work/`、归档区、以及可选的 `.codegraph/`。由 `init` 一次性建齐。`init` 还会把路由块追加进根目录 `AGENTS.md`。
 _Avoid_: 把它当成 Trellis `.trellis/` 整树
+
+**路由块**:
+`init` 写入业务仓 `AGENTS.md` 的托管段落，起止标记为 `<!-- AGENT-SKILLS:START -->` / `END`。内容是何时调用哪个 Skill 的短表，用来提高每会话触发率。不覆盖标记外的原文；重复跑 `init` 只更新这一段。
+_Avoid_: 整文件覆盖 AGENTS.md, 第一期写 CLAUDE.md
 
 **CodeGraph 索引**:
 业务仓（或其中某个 git 子仓）下的 `.codegraph/` 本地代码图谱。`init` 在缺索引时按 CLI 是否可用、是否多仓来建或询问。不是会话记忆。
