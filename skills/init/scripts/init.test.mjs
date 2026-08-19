@@ -119,3 +119,14 @@ test("mergeAgentsMd appends when markers are missing", () => {
   assert.match(text, /^# project notes/m);
   assert.ok(text.includes(AGENTS_START));
 });
+
+test("routing block classifies before start-task and does not map 建任务 directly", () => {
+  const root = tmp();
+  prepare(root);
+  const text = readFileSync(join(root, "AGENTS.md"), "utf8");
+  assert.match(text, /先分档/);
+  assert.match(text, /创建任务/);
+  assert.match(text, /需要对齐再动手/);
+  assert.match(text, /已有 PRD/);
+  assert.doesNotMatch(text, /\|\s*建任务[^\n]*\|\s*`start-task`/);
+});

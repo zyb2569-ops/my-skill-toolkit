@@ -1,6 +1,6 @@
 ---
 name: start-task
-description: Use when creating a `.work/<slug>/` task so a change can resume across sessions, including 大改动 after a PRD exists, or a 普通改动 that will not finish in this session. Also use when the user says 建任务 / start-task.
+description: Use when creating a `.work/<slug>/` task so a change can resume across sessions, including 大改动 after a PRD exists, or a 普通改动 that will not finish in this session. Also use when the user says 创建任务, 建个任务, 开任务, 建任务, or start-task.
 ---
 
 # start-task
@@ -9,9 +9,11 @@ description: Use when creating a `.work/<slug>/` task so a change can resume acr
 
 ## 何时建
 
-- **大改动**：必建（有 PRD 要验收和归档）
+- **大改动**：必建（有 PRD 要验收和归档）。还没有 `grill-with-docs` 产出的 PRD 时，**不要自己编 PRD**；转去 `grill-with-docs`。
 - **普通改动**：仅估计本会话做不完
 - **琐碎改动**：不建
+
+用户说「创建任务 / 建个任务 / 开任务」时先分档。大改动未确认或 PRD 未齐：不要建目录，走 `grill-with-docs`。
 
 ## 步骤
 
@@ -37,4 +39,4 @@ description: Use when creating a `.work/<slug>/` task so a change can resume acr
 
 不要写 `implement.md`，不要规定 TDD/分阶段怎么写代码。
 
-5. 大改动：建好后 `load-specs`（若还没加载）。普通+任务：若还没加载规范，先 `load-specs` 再继续改代码。
+5. 写出 `.work/<短名>/` 后**默认停**。不要接着改产品代码。仅当用户同一句明确用了「开工 / 开始改 / 开始写代码 / 实现吧」时，才 `load-specs`（若还没加载）并改代码。「创建任务做 XX」不算开工。
