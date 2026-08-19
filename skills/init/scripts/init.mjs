@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Create toolkit working paths and report CodeGraph / nested-repo status.
+ * Create toolkit working paths, merge AGENTS.md routing block, and report CodeGraph / nested-repo status.
  *
  *   node init.mjs prepare [--root <dir>]
  */
@@ -36,6 +36,14 @@ const SKIP_DIRS = new Set([
 
 const GITIGNORE_LINES = [".work/", ".agents/specs/.hits.json", ".codegraph/"];
 const MAX_GIT_DEPTH = 2;
+export const AGENTS_START = "<!-- AGENT-SKILLS:START -->";
+export const AGENTS_END = "<!-- AGENT-SKILLS:END -->";
+const AGENTS_FALLBACK = `${AGENTS_START}
+# Skills 工具包
+
+本仓的编码辅助流程在 \`.agents/skills/\`。改代码前先分档，再 Read 对应 SKILL.md。
+${AGENTS_END}
+`;
 
 function posix(p) {
   return p.split(sep).join("/");
@@ -161,6 +169,56 @@ function mergeGitignore(root) {
   return true;
 }
 
+function lf(text) {
+  return String(text).replace(/\r\n/g, "\n");
+}
+
+function agentsTemplate() {
+  const templatePath = join(fileURLToPath(new URL("../templates/AGENTS.md", import.meta.url)));
+  const text = existsSync(templatePath) ? readFileSync(templatePath, "utf8") : AGENTS_FALLBACK;
+  return lf(text).trim() + "\n";
+}
+
+function stitchAgents(before, block, after) {
+  const parts = [before.replace(/\n+$/, ""), block.trimEnd(), after.replace(/^\n+/, "").replace(/\n+$/, "")];
+  return `${parts.filter((s) => s.length > 0).join("\n\n")}\n`;
+}
+
+export function mergeAgentsMd(root) {
+  const abs = join(root, "AGENTS.md");
+  const block = agentsTemplate();
+  if (!block.includes(AGENTS_START) || !block.includes(AGENTS_END)) {
+    throw new Error("AGENTS.md 模板缺少 AGENT-SKILLS 起止标记");
+  }
+
+  if (!existsSync(abs)) {
+    writeFileSync(abs, block, "utf8");
+    return "created";
+  }
+
+  const existing = lf(readFileSync(abs, "utf8"));
+  const startIdx = existing.indexOf(AGENTS_START);
+  const endIdx = existing.indexOf(AGENTS_END);
+
+  let next;
+  let action;
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    next = stitchAgents(
+      existing.slice(0, startIdx),
+      block,
+      existing.slice(endIdx + AGENTS_END.length),
+    );
+    action = "updated";
+  } else {
+    next = stitchAgents(existing, block, "");
+    action = "appended";
+  }
+
+  if (next === existing || next === existing.replace(/\n+$/, "") + "\n") return "unchanged";
+  writeFileSync(abs, next, "utf8");
+  return action;
+}
+
 export function prepare(root) {
   const created = [];
   const skipped = [];
@@ -182,6 +240,10 @@ export function prepare(root) {
 
   if (mergeGitignore(root)) created.push(".gitignore");
   else skipped.push(".gitignore");
+
+  const agentsMd = mergeAgentsMd(root);
+  if (agentsMd === "unchanged") skipped.push("AGENTS.md");
+  else created.push("AGENTS.md");
 
   const project = root.split(/[/\\]/).filter(Boolean).pop();
   const archive = join(homedir(), "agent-archive", project);
@@ -215,6 +277,7 @@ export function prepare(root) {
     root: posix(root),
     created,
     skipped,
+    agentsMd,
     gitRepos,
     codegraph: {
       cli,
