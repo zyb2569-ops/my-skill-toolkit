@@ -32,6 +32,10 @@ _Avoid_: 手写总编号表, 单文件总目录
 某条规范被选用的次数，按文件路径累计，存在 `.agents/specs/.hits.json` 且 gitignore。用来发现长期不用的旧规范，供人决定是否淘汰。
 _Avoid_: hit_count（Trellis `tl mem` 的会话搜索命中）
 
+**分档**:
+模型把一次改动归为琐碎、普通或大改动，再选 Skill。模糊则升一档。用户说「创建任务」也先分档，不直接 `start-task`。
+_Avoid_: 精简/完整两套入口, severity, priority
+
 **琐碎改动**:
 错别字、格式、注释、明显一行修复。不跑规范索引，不建任务。
 _Avoid_: trivial（文档里用中文）
