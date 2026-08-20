@@ -53,7 +53,7 @@ _Avoid_: epic, change（Comet/OpenSpec 的 change 目录）
 _Avoid_: brief, proposal, OpenSpec spec
 
 **任务**:
-一次改动的跨会话执行上下文。目录为 `.work/<短名>/`：`prd.md`（仅大改动）、`design.md`、`task.md`（影响范围、文件、进度、验收项）。大改动必建；普通改动仅估计本会话做不完才建；琐碎改动不建。进行中 gitignore，你明确说「归档」后整夹搬到归档区。
+一次改动的跨会话执行上下文。目录为 `.work/<短名>/`，短名是 `yyyy-MM-dd-` 加主题（小写英文/数字/连字符），例如 `2026-08-20-pack-import`。目录内：`prd.md`（仅大改动）、`design.md`、`task.md`（影响范围、文件、进度、验收项）。大改动必建；普通改动仅估计本会话做不完才建；琐碎改动不建。进行中 gitignore，你明确说「归档」后整夹搬到归档区。
 _Avoid_: issue, ticket, comet change, implement.md
 
 **归档区**:

@@ -17,7 +17,7 @@ description: Use when creating a `.work/<slug>/` task so a change can resume acr
 
 ## 步骤
 
-1. 短名：小写英文/数字/连字符，例如 `pack-import`。不要日期前缀。若 `.work/<短名>/` 已存在，换名或问用户。
+1. 短名：`yyyy-MM-dd-` + 小写英文/数字/连字符，例如 `2026-08-20-pack-import`。日期取创建当天本地日期。不要省略日期、不要改格式、不要把日期放后缀。若 `.work/<短名>/` 已存在，换名或问用户。
 2. 确保 `.gitignore` 含：
 
 ```
