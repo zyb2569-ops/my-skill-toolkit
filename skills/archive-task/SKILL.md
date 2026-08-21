@@ -46,4 +46,4 @@ mv "$src" "$dest"
 ```
 
 4. 核实源目录已不在 `.work/`，目标下有 `task.md`（大改动还应有 `prd.md`）。
-5. 收尾只问一句：有没有新约定值得写进 `.agents/specs/` 的哪一层（frontend / backend / common）？**只建议，等用户决定后再改规范。** 用户说不写就结束。
+5. 收尾只问一句：有没有新约定值得写进 `.agents/specs/` 的哪一层（frontend / backend / common）？**只建议，等用户决定后再改规范。** 用户说不写就结束。用户同意写规范之后、改 `.agents/specs/` 之前：**Read** `.agents/skills/trim-cot-leakage/SKILL.md`，边写边守。

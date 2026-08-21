@@ -35,6 +35,8 @@ description: Use when creating a `.work/<slug>/` task so a change can resume acr
   task.md      # 必有
 ```
 
+大改动写 `design.md` 之前：**Read** `.agents/skills/trim-cot-leakage/SKILL.md`，边写边守。PRD 仍只走 `grill-with-docs` 的 `doc-voice`，不要对 PRD 跑 trim。
+
 4. `task.md` 必须有：目标（大改动写「见 prd.md」）、设计方案（或「见 design.md」）、影响范围、拟改/已改文件、进度、验收项（大改动从 PRD 抄可勾项；普通改动当场写几条）。
 
 不要写 `implement.md`，不要规定 TDD/分阶段怎么写代码。
