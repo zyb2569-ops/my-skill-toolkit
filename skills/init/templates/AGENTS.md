@@ -26,4 +26,5 @@
 | 大改动、PRD、grill、grill-with-docs、需要对齐再动手、写方案 | `grill-with-docs` | `.agents/skills/grill-with-docs/SKILL.md` |
 | 已有 PRD 的大改动，或普通改动本会话做不完，需要 `.work/`、跨会话续跑 | `start-task` | `.agents/skills/start-task/SKILL.md` |
 | 用户明确说「归档」/ archive。一次 commit 不等于归档 | `archive-task` | `.agents/skills/archive-task/SKILL.md` |
+| 用户说「提交」/ commit / 提交代码。不要因为写完代码就提交 | `commit-code` | `.agents/skills/commit-code/SKILL.md` |
 <!-- AGENT-SKILLS:END -->

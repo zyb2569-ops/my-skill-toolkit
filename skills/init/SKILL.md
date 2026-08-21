@@ -35,7 +35,7 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 ```powershell
 New-Item -ItemType Directory -Force .cursor\skills, .claude\skills | Out-Null
-foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task")) {
+foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code")) {
   foreach ($hostDir in @(".cursor\skills", ".claude\skills")) {
     $link = Join-Path $hostDir $name
     if (Test-Path $link) { Remove-Item $link -Force }

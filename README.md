@@ -10,7 +10,7 @@
 
 不强行 TDD、不串 OpenSpec / Superpowers、没有 Trellis 三阶段状态机。
 
-## 五个 Skill
+## 六个 Skill
 
 | Skill | 何时用 |
 |-------|--------|
@@ -19,6 +19,7 @@
 | `grill-with-docs` | 已确认的大改动，产出 PRD |
 | `start-task` | 大改动必建；普通改动估计本会话做不完才建 |
 | `archive-task` | 用户明确说「归档」 |
+| `commit-code` | 用户明确说「提交」：只提交业务代码，说明为 `动作(模块):具体内容` |
 
 源码在仓库根目录 `skills/`。装到业务仓时**复制**到 `.agents/skills/`，不要 submodule，不要把工具包链过去。
 
@@ -63,7 +64,7 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 ```powershell
 New-Item -ItemType Directory -Force .cursor\skills, .claude\skills | Out-Null
-foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task")) {
+foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code")) {
   foreach ($hostDir in @(".cursor\skills", ".claude\skills")) {
     $link = Join-Path $hostDir $name
     if (Test-Path $link) { Remove-Item $link -Force }
@@ -85,6 +86,7 @@ Codex / Pi 直接读 `.agents/skills/`。装完后新开会话。
       load-specs/scripts/   # 列编号、记命中
       start-task/
       archive-task/
+      commit-code/
     specs/
       frontend/index.md
       backend/index.md
