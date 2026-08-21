@@ -1,6 +1,6 @@
-# Skills 工具包
+# winin-dev-sop
 
-按需注入规范，用 PRD 卡住大改动，用 `.work/` 跨会话续跑。不做记忆，不绑死实现方法。
+按需注入规范，用 PRD 卡住大改动，用 `.work/` 跨会话续跑。不做记忆，不绑死实现方法。所有 Skill 以 `sop-` 为前缀，混装时可辨归属。
 
 需求：[需求文档.md](需求文档.md)。术语：[CONTEXT.md](CONTEXT.md)。
 
@@ -10,18 +10,19 @@
 
 不强行 TDD、不串 OpenSpec / Superpowers、没有 Trellis 三阶段状态机。
 
-## 八个 Skill
+## 九个 Skill
 
 | Skill | 何时用 |
 |-------|--------|
-| `init` | 第一次进业务仓：建工作路径，处理 CodeGraph 索引 |
-| `load-specs` | 非琐碎改动、准备写代码 |
-| `grill-with-docs` | 已确认的大改动，产出 PRD |
-| `start-task` | 大改动必建；普通改动估计本会话做不完才建 |
-| `archive-task` | 用户明确说「归档」 |
-| `commit-code` | 用户明确说「提交」：只提交业务代码，说明为 `动作(模块):具体内容` |
-| `find-simplifications` | 用户说简化、找死代码、收敛重复、删无用代码 |
-| `trim-cot-leakage` | 写规范、设计说明、注释、JSDoc 等说明性文字时立刻 Read，不必等用户点名 |
+| `sop-init` | 第一次进业务仓：建工作路径，处理 CodeGraph 索引 |
+| `sop-load-specs` | 非琐碎改动、准备写代码 |
+| `sop-grill-with-docs` | 已确认的大改动，产出 PRD |
+| `sop-start-task` | 大改动必建；普通改动估计本会话做不完才建 |
+| `sop-archive-task` | 用户明确说「归档」 |
+| `sop-commit-code` | 用户明确说「提交」：只提交业务代码，说明为 `动作(模块):具体内容` |
+| `sop-find-simplifications` | 用户说简化、找死代码、收敛重复、删无用代码 |
+| `sop-trim-cot-leakage` | 写规范、设计说明、注释、JSDoc 等说明性文字时立刻 Read，不必等用户点名 |
+| `sop-review-diff` | 用户说审查这次改动、查过度设计：审当前未提交改动，产出删除清单 |
 
 源码在仓库根目录 `skills/`。装到业务仓时**复制**到 `.agents/skills/`，不要 submodule，不要把工具包链过去。
 
@@ -32,26 +33,26 @@
 | 档 | 规范 | PRD | 任务 |
 |----|------|-----|------|
 | 琐碎（错别字/格式/注释/一行修复） | 不加载 | 无 | 不建 |
-| 普通 | `load-specs` | 无 | 估计本会话做不完才建 |
+| 普通 | `sop-load-specs` | 无 | 估计本会话做不完才建 |
 | 大改动（业务流程 / 代码行为 / 上下游） | 执行时加载 | 必有 | 必建 |
 
 一条路径，没有精简/完整两套入口。
 
 ## 第一次装到业务仓
 
-1. 把本仓库的 `skills/` **里面的各个 Skill 目录**复制到业务仓的 `.agents/skills/`（复制后应直接看到 `.agents/skills/init/SKILL.md`，不要多套一层 `skills`）。
+1. 把本仓库的 `skills/` **里面的各个 Skill 目录**复制到业务仓的 `.agents/skills/`（复制后应直接看到 `.agents/skills/sop-init/SKILL.md`，不要多套一层 `skills`）。
 
 ```powershell
 New-Item -ItemType Directory -Force .agents\skills | Out-Null
 Copy-Item -Recurse -Force \path\to\my-skill-toolkit\skills\* .agents\skills\
 ```
-2. 在业务仓根目录对 Agent 说「用 init 初始化」，或自己跑：
+2. 在业务仓根目录对 Agent 说「用 sop-init 初始化」，或自己跑：
 
 ```bash
-node .agents/skills/init/scripts/init.mjs prepare
+node .agents/skills/sop-init/scripts/init.mjs prepare
 ```
 
-`init` 会：
+`sop-init` 会：
 
 - 建 `.work/`、`.agents/specs/{frontend,backend,common}/index.md`（已有 index 不覆盖）
 - 把忽略规则并进 `.gitignore`
@@ -60,13 +61,13 @@ node .agents/skills/init/scripts/init.mjs prepare
 - 给 Cursor / Claude Code 建 junction
 - 检查 CodeGraph：没有索引则看 `codegraph` 在不在 PATH；在就建索引；多个代码仓先给你方案；命令没有则问你装不装，不装就跳过
 
-3. 规范正文你自己往三层目录里加。index 必须有「何时读哪些规范」和「改完对照什么」。模板：`skills/init/templates/index.md`。`AGENTS.md` 路由块模板：`skills/init/templates/AGENTS.md`（装进业务仓后都在 `.agents/skills/init/templates/`）。
+3. 规范正文你自己往三层目录里加。index 必须有「何时读哪些规范」和「改完对照什么」。模板：`skills/sop-init/templates/index.md`。`AGENTS.md` 路由块模板：`skills/sop-init/templates/AGENTS.md`（装进业务仓后都在 `.agents/skills/sop-init/templates/`）。
 
-手工 junction（`init` 没做成时）：
+手工 junction（`sop-init` 没做成时）：
 
 ```powershell
 New-Item -ItemType Directory -Force .cursor\skills, .claude\skills | Out-Null
-foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code","find-simplifications","trim-cot-leakage")) {
+foreach ($name in @("sop-init","sop-grill-with-docs","sop-load-specs","sop-start-task","sop-archive-task","sop-commit-code","sop-find-simplifications","sop-trim-cot-leakage","sop-review-diff")) {
   foreach ($hostDir in @(".cursor\skills", ".claude\skills")) {
     $link = Join-Path $hostDir $name
     if (Test-Path $link) { Remove-Item $link -Force }
@@ -77,33 +78,43 @@ foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-
 
 Codex / Pi 直接读 `.agents/skills/`。装完后新开会话。
 
+## 从旧版升级（skill 更名 sop- 前缀）
+
+2026-08 之前安装的业务仓里是旧名目录（init、start-task 等），两种迁法任选：
+
+1. 删掉业务仓 `.agents/skills/` 下全部旧目录，按「第一次装到业务仓」重新复制，再重跑 `sop-init`；
+2. 或把每个目录名加 `sop-` 前缀，再按上面手工 junction 脚本重建 `.cursor\skills`、`.claude\skills` 链接。
+
+`.agents/specs/`、`.work/`、归档区不受影响，无需迁移。
+
 ## 业务仓目录
 
 ```
 <业务仓>/
   .agents/
     skills/                 # 从工具包 `skills/` 拷来
-      init/
-      grill-with-docs/
-      load-specs/scripts/   # 列编号、记命中
-      start-task/
-      archive-task/
-      commit-code/
-      find-simplifications/
-      trim-cot-leakage/
+      sop-init/
+      sop-grill-with-docs/
+      sop-load-specs/scripts/   # 列编号、记命中
+      sop-start-task/
+      sop-archive-task/
+      sop-commit-code/
+      sop-find-simplifications/
+      sop-trim-cot-leakage/
+      sop-review-diff/
     specs/
       frontend/index.md
       backend/index.md
       common/index.md
       .hits.json            # gitignore
   .work/                    # gitignore，进行中任务
-  .codegraph/               # gitignore，CodeGraph 索引（init 按需建）
+  .codegraph/               # gitignore，CodeGraph 索引（sop-init 按需建）
   .cursor/skills/           # junction → .agents/skills
   AGENTS.md                 # 追加托管路由块，不覆盖原有段落
   .gitignore                # 含 .work/、.hits.json、.codegraph/
 ```
 
-`.gitignore` 片段在工具包根目录 `gitignore.fragment`。`init` 也会把同样规则并进业务仓 `.gitignore`。
+`.gitignore` 片段在工具包根目录 `gitignore.fragment`。`sop-init` 也会把同样规则并进业务仓 `.gitignore`。
 
 ## CodeGraph
 
@@ -116,12 +127,12 @@ Codex / Pi 直接读 `.agents/skills/`。装完后新开会话。
 
 ## 规范怎么加载
 
-准备写代码且不是琐碎改动时用 `load-specs`：
+准备写代码且不是琐碎改动时用 `sop-load-specs`：
 
 ```bash
-node .agents/skills/load-specs/scripts/specs.mjs list
-node .agents/skills/load-specs/scripts/specs.mjs pick "1,3,7"
-node .agents/skills/load-specs/scripts/specs.mjs hits
+node .agents/skills/sop-load-specs/scripts/specs.mjs list
+node .agents/skills/sop-load-specs/scripts/specs.mjs pick "1,3,7"
+node .agents/skills/sop-load-specs/scripts/specs.mjs hits
 ```
 
 PowerShell 里编号必须加引号。命中按**文件路径**记在 `.agents/specs/.hits.json`，不进 git。没有 Node 时按同样规则自己扫三层 `index.md`。
@@ -140,8 +151,8 @@ PowerShell 里编号必须加引号。命中按**文件路径**记在 `.agents/s
 ## 测脚本（在工具包仓库）
 
 ```bash
-node --test skills/load-specs/scripts/specs.test.mjs
-node --test skills/init/scripts/init.test.mjs
+node --test skills/sop-load-specs/scripts/specs.test.mjs
+node --test skills/sop-init/scripts/init.test.mjs
 ```
 
 ## 明确不做

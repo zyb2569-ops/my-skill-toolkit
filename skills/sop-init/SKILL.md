@@ -1,5 +1,5 @@
 ---
-name: init
+name: sop-init
 description: Use when first setting up this toolkit in a business repo, when required working paths are missing, or when the user says init / 初始化 / 安装工作目录. Also use to check or build a CodeGraph index, and to append the Skill routing block into AGENTS.md.
 ---
 
@@ -12,7 +12,7 @@ description: Use when first setting up this toolkit in a business repo, when req
 1. 在业务仓根目录运行：
 
 ```bash
-node .agents/skills/init/scripts/init.mjs prepare
+node .agents/skills/sop-init/scripts/init.mjs prepare
 ```
 
 没有 Node：手工建这些路径（已有的跳过）：
@@ -37,7 +37,7 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 ```powershell
 New-Item -ItemType Directory -Force .cursor\skills, .claude\skills | Out-Null
-foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code","find-simplifications","trim-cot-leakage","review-diff")) {
+foreach ($name in @("sop-init","sop-grill-with-docs","sop-load-specs","sop-start-task","sop-archive-task","sop-commit-code","sop-find-simplifications","sop-trim-cot-leakage","sop-review-diff")) {
   foreach ($hostDir in @(".cursor\skills", ".claude\skills")) {
     $link = Join-Path $hostDir $name
     if (Test-Path $link) { Remove-Item $link -Force }

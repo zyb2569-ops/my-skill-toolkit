@@ -5,7 +5,7 @@
 ## 怎么跑
 
 - 范围就是这次正在写或改的路径，不要默认全仓。
-- 排除放在最后，避免后面的 include 又加回来：`--glob '!node_modules/**' --glob '!target/**' --glob '!**/src/test/**' --glob '!**/*.{spec,test}.*' --glob '!**/__snapshots__/**' --glob '!**/*.snap' --glob '!.agents/skills/trim-cot-leakage/**' --glob '!**/skills/trim-cot-leakage/**'`。本 Skill 目录会引用泄漏原句，命中不算正文泄漏。
+- 排除放在最后，避免后面的 include 又加回来：`--glob '!node_modules/**' --glob '!target/**' --glob '!**/src/test/**' --glob '!**/*.{spec,test}.*' --glob '!**/__snapshots__/**' --glob '!**/*.snap' --glob '!.agents/skills/sop-trim-cot-leakage/**' --glob '!**/skills/sop-trim-cot-leakage/**'`。本 Skill 目录会引用泄漏原句，命中不算正文泄漏。
 - 自然语句加 `-i`。第一行代码型模式不要加 `-i`，否则 `\bT\d\b`、`\bP-I\b` 会变成噪音。
 
 ## 英文

@@ -1,9 +1,9 @@
 ---
-name: commit-code
+name: sop-commit-code
 description: Use when the user says 提交, commit, git commit, 提交代码, or asks to commit current changes. Do not use for 归档/archive, and do not commit just because code was written.
 ---
 
-# commit-code
+# sop-commit-code
 
 把当前改动提交进 git。提交时不能带任何配置文件和单测，只需提交改动的业务代码。没听到「提交」不要 commit。
 

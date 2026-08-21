@@ -75,7 +75,7 @@ test("prepare creates AGENTS.md and does not duplicate on rerun", () => {
   assert.ok(first.created.includes("AGENTS.md"));
   const text = readFileSync(join(root, "AGENTS.md"), "utf8");
   assert.match(text, /AGENT-SKILLS:START/);
-  assert.match(text, /load-specs/);
+  assert.match(text, /sop-load-specs/);
   const second = prepare(root);
   assert.equal(second.agentsMd, "unchanged");
   assert.ok(second.skipped.includes("AGENTS.md"));
@@ -91,7 +91,7 @@ test("prepare appends routing block after existing AGENTS.md", () => {
   const text = readFileSync(join(root, "AGENTS.md"), "utf8");
   assert.match(text, /TRELLIS:START/);
   assert.match(text, /AGENT-SKILLS:START/);
-  assert.match(text, /grill-with-docs/);
+  assert.match(text, /sop-grill-with-docs/);
   assert.ok(text.indexOf("TRELLIS:START") < text.indexOf("AGENT-SKILLS:START"));
 });
 
@@ -107,7 +107,10 @@ test("prepare refreshes stale managed block and keeps surrounding text", () => {
   assert.match(text, /^# keep-head/m);
   assert.match(text, /# keep-tail/);
   assert.doesNotMatch(text, /STALE_BLOCK_CONTENT/);
-  assert.match(text, /archive-task/);
+  assert.match(text, /sop-archive-task/);
+  assert.match(text, /sop-commit-code/);
+  assert.match(text, /sop-find-simplifications/);
+  assert.match(text, /sop-trim-cot-leakage/);
   assert.equal((text.match(/AGENT-SKILLS:START/g) || []).length, 1);
 });
 
@@ -120,7 +123,7 @@ test("mergeAgentsMd appends when markers are missing", () => {
   assert.ok(text.includes(AGENTS_START));
 });
 
-test("routing block classifies before start-task and does not map 建任务 directly", () => {
+test("routing block classifies before sop-start-task and does not map 建任务 directly", () => {
   const root = tmp();
   prepare(root);
   const text = readFileSync(join(root, "AGENTS.md"), "utf8");
@@ -128,5 +131,10 @@ test("routing block classifies before start-task and does not map 建任务 dire
   assert.match(text, /创建任务/);
   assert.match(text, /需要对齐再动手/);
   assert.match(text, /已有 PRD/);
-  assert.doesNotMatch(text, /\|\s*建任务[^\n]*\|\s*`start-task`/);
+  assert.match(text, /sop-commit-code/);
+  assert.match(text, /提交代码/);
+  assert.match(text, /sop-find-simplifications/);
+  assert.match(text, /sop-trim-cot-leakage/);
+  assert.match(text, /不必等用户点名/);
+  assert.doesNotMatch(text, /\|\s*建任务[^\n]*\|\s*`sop-start-task`/);
 });

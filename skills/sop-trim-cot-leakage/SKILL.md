@@ -1,9 +1,9 @@
 ---
-name: trim-cot-leakage
+name: sop-trim-cot-leakage
 description: 正在写或修改将进仓库的说明性文字时使用，包括规范、设计说明、README、注释、JSDoc、Skill 正文。不要等用户点名或说出本 Skill。写 PRD 时不用（走 doc-voice）；用户说简化时不用；只提交时不用。
 ---
 
-# trim-cot-leakage
+# sop-trim-cot-leakage
 
 被动写作纪律：说明性文字对现在的代码负责，不对当时那次会话负责。边写边守。不要等用户点名。
 
@@ -13,7 +13,7 @@ description: 正在写或修改将进仓库的说明性文字时使用，包括�
 
 当场按规则落笔。不出审计表，不另起一遍 pass，不强制 subagent。改已有文字只动这次碰到的段落，不要顺手扫全文件或全仓。
 
-用户说简化时不要跑本 Skill（走 `find-simplifications`）。只提交时不要跑。
+用户说简化时不要跑本 Skill（走 `sop-find-simplifications`）。只提交时不要跑。
 
 ## 一条检验
 
@@ -21,7 +21,7 @@ description: 正在写或修改将进仓库的说明性文字时使用，包括�
 
 ## 交接
 
-删这段文字会改变承诺行为、公开接口或上下游时：**停手，不要改。** 告诉用户这是简化候选，等用户主动说简化再走 `find-simplifications`。本 Skill 不因为发现候选就去扫代码表面。
+删这段文字会改变承诺行为、公开接口或上下游时：**停手，不要改。** 告诉用户这是简化候选，等用户主动说简化再走 `sop-find-simplifications`。本 Skill 不因为发现候选就去扫代码表面。
 
 ## Taxonomy
 

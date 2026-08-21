@@ -1,9 +1,9 @@
 ---
-name: load-specs
-description: Use when about to write or change non-trivial code, when selecting project 规范 by number, when recording spec hits, or when the user says 加载规范 / load-specs. Skip typos, formatting, comments, and one-line obvious fixes.
+name: sop-load-specs
+description: Use when about to write or change non-trivial code, when selecting project 规范 by number, when recording spec hits, or when the user says 加载规范 / sop-load-specs. Skip typos, formatting, comments, and one-line obvious fixes.
 ---
 
-# load-specs
+# sop-load-specs
 
 按需注入业务仓 `.agents/specs/` 里的规范。编号是当次菜单号；命中按文件路径计。
 
@@ -12,8 +12,8 @@ description: Use when about to write or change non-trivial code, when selecting 
 | 档 | 做什么 |
 |----|--------|
 | 琐碎 | 错别字/格式/注释/明显一行。**停，不要跑本 Skill。** |
-| 普通 | 跑本 Skill。不写 PRD。估计本会话做不完才 `start-task`。 |
-| 大改动 | 改业务流程、代码行为或上下游。先给结论和理由，**等人确认**，再 `grill-with-docs`。确认前不要加载规范、不要改产品代码。 |
+| 普通 | 跑本 Skill。不写 PRD。估计本会话做不完才 `sop-start-task`。 |
+| 大改动 | 改业务流程、代码行为或上下游。先给结论和理由，**等人确认**，再 `sop-grill-with-docs`。确认前不要加载规范、不要改产品代码。 |
 
 模糊则升一档。
 
@@ -22,13 +22,13 @@ description: Use when about to write or change non-trivial code, when selecting 
 在业务仓根目录：
 
 ```bash
-node .agents/skills/load-specs/scripts/specs.mjs list
+node .agents/skills/sop-load-specs/scripts/specs.mjs list
 ```
 
 把编号表给用户看（或自己选）。多选：
 
 ```bash
-node .agents/skills/load-specs/scripts/specs.mjs pick "1,3,7"
+node .agents/skills/sop-load-specs/scripts/specs.mjs pick "1,3,7"
 ```
 
 PowerShell 必须给编号加引号。然后 **Read 选中的每个文件**。若没选中该层 `index.md`，仍要读所选文件所在层的 `index.md`，并在改完后对照「改完对照什么」。

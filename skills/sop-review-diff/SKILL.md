@@ -1,16 +1,16 @@
 ---
-name: review-diff
-description: 用户明确说审查这次改动、查过度设计、review-diff 时使用。默认审当前未提交改动，可点名 commit 或任务目录扩大范围。存量代码简化走 find-simplifications；写文档或注释时不用；用户说提交时不用。
+name: sop-review-diff
+description: 用户明确说审查这次改动、查过度设计、sop-review-diff 时使用。默认审当前未提交改动，可点名 commit 或任务目录扩大范围。存量代码简化走 sop-find-simplifications；写文档或注释时不用；用户说提交时不用。
 ---
 
-# review-diff
+# sop-review-diff
 
 增量审查：对刚写出的改动查过度构建，产出删除清单。只列不动手。
 
 ## 范围
 
 1. 默认取当前未提交改动（git diff）。用户点名 commit 或任务目录才扩大，不猜、不全仓扫。
-2. 点名范围之外的文件不看不报。存量代码的简化走 `find-simplifications`。
+2. 点名范围之外的文件不看不报。存量代码的简化走 `sop-find-simplifications`。
 
 ## 标签
 
@@ -41,5 +41,5 @@ L30-44 精简 手写循环拼字典．dict(zip(keys, values))，1 行。
 ## 不要
 
 - 用户不点名不运行；用户说提交时不顺手运行
-- 列完清单就停，不动手改代码，不接着 `start-task`
-- 不给存量代码做审计，那是 `find-simplifications` 的事
+- 列完清单就停，不动手改代码，不接着 `sop-start-task`
+- 不给存量代码做审计，那是 `sop-find-simplifications` 的事

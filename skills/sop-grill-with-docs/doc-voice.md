@@ -1,6 +1,6 @@
 # doc-voice
 
-`grill-with-docs` 写 PRD 初稿后的**文风 pass**。只改 register，不改契约。未执行本 pass 就 `start-task` 落盘 `prd.md`，视为不合格。
+`sop-grill-with-docs` 写 PRD 初稿后的**文风 pass**。只改 register，不改契约。未执行本 pass 就 `sop-start-task` 落盘 `prd.md`，视为不合格。
 
 ## 适用
 
@@ -92,7 +92,7 @@
 - 已 Read 审计表与修订稿
 - 逐条对照：决策、验收项、边界与初稿**含义一致**
 - 无明显 Tier-1 残留、无大面积 coaching「你」
-- 通过 → 用修订稿进入 `start-task`；不通过 → **阻塞落盘**，让 subagent 再改或主 agent 手工修后重跑 pass
+- 通过 → 用修订稿进入 `sop-start-task`；不通过 → **阻塞落盘**，让 subagent 再改或主 agent 手工修后重跑 pass
 
 ## 与模板的关系
 
@@ -103,5 +103,5 @@
 
 - 未 Read `doc-voice.md` 就落盘 `prd.md`
 - 主 agent 自改 PRD 冒充 pass（未走 subagent）
-- 保真回读失败仍 `start-task`
+- 保真回读失败仍 `sop-start-task`
 - 为去味删除或弱化验收项 / 已拍板决策
