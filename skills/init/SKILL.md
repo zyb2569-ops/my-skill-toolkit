@@ -27,6 +27,8 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 把忽略规则并进 `.gitignore`（工具包根目录的 `gitignore.fragment` 与脚本内置规则一致）。index 模板在本 Skill 的 `templates/index.md`，把 `{{Layer}}` 换成 Frontend / Backend / Common。
 
+把 `templates/reuse-ladder.md` 复制为业务仓 `.agents/specs/common/reuse-ladder.md`；该文件已存在则跳过，不覆盖。
+
 把本 Skill `templates/AGENTS.md` 追加进业务仓根目录 `AGENTS.md`：没有该文件就整份写入；已有则在文末追加；若已有 `<!-- AGENT-SKILLS:START -->` / `END`，只替换这两标记之间的内容。不要删 Trellis 等其它段落。不要写 `CLAUDE.md`。
 
 2. 读脚本 JSON。`created` 是新建的，`skipped` 是本来就有的。`agentsMd` 为 `created` / `appended` / `updated` / `unchanged`。
@@ -35,7 +37,7 @@ node .agents/skills/init/scripts/init.mjs prepare
 
 ```powershell
 New-Item -ItemType Directory -Force .cursor\skills, .claude\skills | Out-Null
-foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code","find-simplifications","trim-cot-leakage")) {
+foreach ($name in @("init","grill-with-docs","load-specs","start-task","archive-task","commit-code","find-simplifications","trim-cot-leakage","review-diff")) {
   foreach ($hostDir in @(".cursor\skills", ".claude\skills")) {
     $link = Join-Path $hostDir $name
     if (Test-Path $link) { Remove-Item $link -Force }
